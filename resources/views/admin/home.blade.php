@@ -1,5 +1,9 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<h1>questa è la dashboard</h1>
-@endsection 
+    <section>
+        <div class="container">
+            <h1>Benvenuto {{ $user->name }} nell'area protetta</h1>
+        </div>
+    </section>
+@endsection
