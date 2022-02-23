@@ -6,6 +6,9 @@
 
         <div class="mb-2"><strong>Slug:</strong> {{ $post->slug }}</div>
 
+        {{-- show the category of a post[id], if that post has no category it set 'nessuna' as default --}}
+        <div class="mb-2"><strong>Categoria:</strong> {{ $post->category ? $post->category->name : 'nessuna' }}</div>
+
         <p>{{ $post->content }}</p>
 
         <div>
