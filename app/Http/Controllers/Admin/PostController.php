@@ -45,7 +45,7 @@ class PostController extends Controller
         $new_post = new Post();
         $new_post->fill($form_data);
         
-        $new_post->slug = $this->getUniqueSlugFromTitle($form_data['title']);
+        $new_post->slug = Post::getUniqueSlugFromTitle($form_data['title']);
 
         $new_post->save();
 
@@ -92,7 +92,7 @@ class PostController extends Controller
         
         // Aggiorno lo slug soltanto se l'utente in fase di modifica cambia il titolo
         if($form_data['title'] != $post->title) {
-            $form_data['slug'] = $this->getUniqueSlugFromTitle($form_data['title']);
+            $form_data['slug'] = Post::getUniqueSlugFromTitle($form_data['title']);
         }
         
         $post->update($form_data);
@@ -113,27 +113,12 @@ class PostController extends Controller
 
         return redirect()->route('admin.posts.index');
     }
+
     // UTILITIES FUNCTIONS
     protected function getValidationRules() {
         return [
             'title' => 'required|max:255',
             'content' => 'required|max:60000'
         ];
-    }
-
-    protected function getUniqueSlugFromTitle($title) {
-        $slug = Str::slug($title);
-        $slug_base = $slug;
-        
-        $post_found = Post::where('slug', '=', $slug)->first();
-        $counter = 1;
-        while($post_found) {
-            // se il titolo esiste si concatena il counter, finché non trova un counter non utilizzato
-            $slug = $slug_base . '-' . $counter;
-            $post_found = Post::where('slug', '=', $slug)->first();
-            $counter++;
-        }
-
-        return $slug;
     }
 }
