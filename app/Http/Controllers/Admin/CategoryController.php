@@ -15,6 +15,7 @@ class CategoryController extends Controller
     }
 
     public function show($slug) {
+        // seleziona la categoria avente lo slug passato da show
         $category = Category::where('slug', '=', $slug)->first();
         $posts = $category->posts;
 
