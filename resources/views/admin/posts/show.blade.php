@@ -9,6 +9,16 @@
         {{-- show the category of a post[id], if that post has no category it set 'nessuna' as default --}}
         <div class="mb-2"><strong>Categoria:</strong> {{ $post->category ? $post->category->name : 'nessuna' }}</div>
 
+        <div class="mb-2"><strong>Tags:</strong>
+            {{-- se ci sono mostra i tag appartenenti altrimenti nessuno --}}
+            @forelse ($post->tags as $tag)
+                {{-- stampa il tag name con una virgola, se è l'ultimo elemento non la stampa --}}
+                {{ $tag->name }}{{ $loop->last ? '' : ', ' }}
+            @empty
+                nessuno
+            @endforelse
+        </div>
+
         <p>{{ $post->content }}</p>
 
         <div>

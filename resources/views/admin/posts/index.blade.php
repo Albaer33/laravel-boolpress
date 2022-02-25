@@ -20,5 +20,8 @@
                     {{-- End Single post --}}
                 @endforeach
             </div>
+
+            {{-- stampa l'indice delle pagine dei post --}}
+            {{ $posts->links() }}
     </section>
 @endsection
