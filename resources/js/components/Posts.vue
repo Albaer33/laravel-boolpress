@@ -1,9 +1,9 @@
 <template>
-    <h1>work in progress</h1>
+    <div>bfdsbdsbdsbfds</div>
 </template>
 
 <script>
 export default {
-    name: 'WorkInProgress'
+    name: 'Posts',
 }
 </script>
