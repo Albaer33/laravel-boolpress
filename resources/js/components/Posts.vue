@@ -4,7 +4,7 @@
 
             <h1>I nostri post</h1>
 
-            <div class="row row-cols-3">
+            <div class="row row-cols-4">
 
                 <!-- Single post card -->
                 <div v-for="post in posts" :key="post.id" class="col">
@@ -27,6 +27,27 @@
                 
             </div>
 
+            <!-- barra navigazione pagine TO DO -->
+            <nav>
+                <ul class="pagination">
+
+                    <!-- al click va alla pagina precedente SE non si è alla pagina iniziale -->
+                    <li class="page-item" :class="{ 'disabled': currentPage == 1 }">
+                        <a @click="getPosts(currentPage--)" class="page-link" href="#">Previous</a>
+                    </li>
+
+                    <!-- al click indirizza alla pagina selezionata -->
+                    <li v-for="n in lastPage" :key="n" class="page-item" :class="{ 'active': currentPage == n }">
+                        <a @click="getPosts(n)" class="page-link" href="#">{{ n }}</a>
+                    </li>
+
+                    <!-- al click va alla pagina susseguente SE non si è alla pagina finale -->
+                    <li class="page-item" :class="{ 'disabled': currentPage == lastPage }">
+                        <a @click="getPosts(currentPage++)" class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </section>
 </template>
@@ -36,7 +57,9 @@ export default {
     name: 'Posts',
     data: function() {
         return {
-            posts: []
+            posts: [],
+            currentPage: 1,
+            lastPage: false
         };
     },
     methods: {
@@ -44,7 +67,11 @@ export default {
             // chiamata API per prelevare i posts dal controller backend
             axios.get('/api/posts')
             .then((response) => {
-                this.posts = response.data.results;
+                this.posts = response.data.results.data;
+                // assegnazioni di pagina corrente e ultima pagina
+                console.log(response.data.results);
+                this.currentPage = response.data.results.current_page;
+                this.lastPage = response.data.results.last_page;
             });
         },
         truncateText: function(text, maxCharsNumber) {
@@ -57,7 +84,7 @@ export default {
         }
     },
     created: function() {
-        this.getPosts();
+        this.getPosts(1);
     }
 }
 </script>

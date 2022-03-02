@@ -1974,11 +1974,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Posts',
   data: function data() {
     return {
-      posts: []
+      posts: [],
+      currentPage: 1,
+      lastPage: false
     };
   },
   methods: {
@@ -1987,7 +2010,11 @@ __webpack_require__.r(__webpack_exports__);
 
       // chiamata API per prelevare i posts dal controller backend
       axios.get('/api/posts').then(function (response) {
-        _this.posts = response.data.results;
+        _this.posts = response.data.results.data; // assegnazioni di pagina corrente e ultima pagina
+
+        console.log(response.data.results);
+        _this.currentPage = response.data.results.current_page;
+        _this.lastPage = response.data.results.last_page;
       });
     },
     truncateText: function truncateText(text, maxCharsNumber) {
@@ -2001,7 +2028,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getPosts();
+    this.getPosts(1);
   }
 });
 
@@ -2567,7 +2594,7 @@ var render = function () {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "row row-cols-3" },
+        { staticClass: "row row-cols-4" },
         _vm._l(_vm.posts, function (post) {
           return _c("div", { key: post.id, staticClass: "col" }, [
             _c("div", { staticClass: "card my-2" }, [
@@ -2585,6 +2612,87 @@ var render = function () {
         }),
         0
       ),
+      _vm._v(" "),
+      _c("nav", [
+        _c(
+          "ul",
+          { staticClass: "pagination" },
+          [
+            _c(
+              "li",
+              {
+                staticClass: "page-item",
+                class: { disabled: _vm.currentPage == 1 },
+              },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "page-link",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.getPosts(_vm.currentPage--)
+                      },
+                    },
+                  },
+                  [_vm._v("Previous")]
+                ),
+              ]
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.lastPage, function (n) {
+              return _c(
+                "li",
+                {
+                  key: n,
+                  staticClass: "page-item",
+                  class: { active: _vm.currentPage == n },
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "page-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.getPosts(n)
+                        },
+                      },
+                    },
+                    [_vm._v(_vm._s(n))]
+                  ),
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "page-item",
+                class: { disabled: _vm.currentPage == _vm.lastPage },
+              },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "page-link",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.getPosts(_vm.currentPage++)
+                      },
+                    },
+                  },
+                  [_vm._v("Next")]
+                ),
+              ]
+            ),
+          ],
+          2
+        ),
+      ]),
     ]),
   ])
 }
