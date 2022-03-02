@@ -33,7 +33,7 @@
 
                     <!-- al click va alla pagina precedente SE non si è alla pagina iniziale -->
                     <li class="page-item" :class="{ 'disabled': currentPage == 1 }">
-                        <a @click="getPosts(currentPage--)" class="page-link" href="#">Previous</a>
+                        <a @click="getPosts(currentPage - 1)" class="page-link" href="#">Previous</a>
                     </li>
 
                     <!-- al click indirizza alla pagina selezionata -->
@@ -43,7 +43,7 @@
 
                     <!-- al click va alla pagina susseguente SE non si è alla pagina finale -->
                     <li class="page-item" :class="{ 'disabled': currentPage == lastPage }">
-                        <a @click="getPosts(currentPage++)" class="page-link" href="#">Next</a>
+                        <a @click="getPosts(currentPage + 1)" class="page-link" href="#">Next</a>
                     </li>
                 </ul>
             </nav>
@@ -63,9 +63,13 @@ export default {
         };
     },
     methods: {
-        getPosts: function() {
+        getPosts: function(pageNumber) {
             // chiamata API per prelevare i posts dal controller backend
-            axios.get('/api/posts')
+            axios.get('/api/posts', {
+                params: {
+                    page: pageNumber
+                }
+            })
             .then((response) => {
                 this.posts = response.data.results.data;
                 // assegnazioni di pagina corrente e ultima pagina

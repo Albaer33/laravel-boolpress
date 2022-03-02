@@ -2005,11 +2005,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getPosts: function getPosts() {
+    getPosts: function getPosts(pageNumber) {
       var _this = this;
 
       // chiamata API per prelevare i posts dal controller backend
-      axios.get('/api/posts').then(function (response) {
+      axios.get('/api/posts', {
+        params: {
+          page: pageNumber
+        }
+      }).then(function (response) {
         _this.posts = response.data.results.data; // assegnazioni di pagina corrente e ultima pagina
 
         console.log(response.data.results);
@@ -2632,7 +2636,7 @@ var render = function () {
                     attrs: { href: "#" },
                     on: {
                       click: function ($event) {
-                        return _vm.getPosts(_vm.currentPage--)
+                        return _vm.getPosts(_vm.currentPage - 1)
                       },
                     },
                   },
@@ -2681,7 +2685,7 @@ var render = function () {
                     attrs: { href: "#" },
                     on: {
                       click: function ($event) {
-                        return _vm.getPosts(_vm.currentPage++)
+                        return _vm.getPosts(_vm.currentPage + 1)
                       },
                     },
                   },
