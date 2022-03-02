@@ -9,8 +9,8 @@ use App\Post;
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::paginate(6);
-        dd($posts);
+        $posts = Post::all();
+
         return response()->json([
             'success' => true,
             'results' => $posts
