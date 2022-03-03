@@ -37,10 +37,6 @@ export default {
                     name: 'blog',
                     label: 'Blog'
                 },
-                {
-                    name: 'latest-news',
-                    label: 'Latest News'
-                },
             ],
         };
     }
