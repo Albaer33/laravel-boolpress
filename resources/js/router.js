@@ -7,6 +7,7 @@ import Home from './pages/Home.vue';
 import About from './pages/About.vue';
 import Blog from './pages/Blog.vue';
 import NotFound from './pages/NotFound.vue';
+import PostDetails from './pages/PostDetails.vue';
 
 const router = new VueRouter({
     mode: "history",
@@ -30,6 +31,11 @@ const router = new VueRouter({
             path: "/*",
             name: "not-found",
             component: NotFound
+        },
+        {
+            path: "/blog/:slug",
+            name: "post-details",
+            component: PostDetails
         },
     ]
 });
