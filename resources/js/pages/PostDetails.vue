@@ -3,7 +3,13 @@
         <div class="container">
             <h1>{{ post.title }}</h1>
 
-            <div v-if="post.category">Category: {{ post.category.name }}</div>
+            <div v-if="post.category">Categoria: {{ post.category.name }}</div>
+
+            <div v-if="post.tags.length > 0">
+                <span v-for="tag in post.tags" :key="tag.id" class="badge badge-pill badge-info mx-1 p-1">
+                    {{ tag.name }}
+                </span>
+            </div>
 
             <p>{{ post.content }}</p>
         </div>
