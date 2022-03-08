@@ -11,6 +11,8 @@ class NewPostNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $new_post;
+    
     /**
      * Create a new message instance.
      *
