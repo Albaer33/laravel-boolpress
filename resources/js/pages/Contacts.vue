@@ -4,23 +4,34 @@
             <div class="container">
                 <h1>Contattaci</h1>
 
+                <div v-if="success">Grazie per averci contattato, email inviata</div>
+
                 <form>
                     <div class="mb-3">
                         <label for="email" class="form-label">Indirizzo email</label>
-                        <input type="email" class="form-control" id="email">
+                        <input v-model="email" type="email" class="form-control" id="email">
+                    </div>
+                    <div v-if="errors.email">
+                        <p v-for="(error, index) in errors.email" :key="index">{{ error }}</p>
                     </div>
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
-                        <input type="text" class="form-control" id="name">
+                        <input v-model="name" type="text" class="form-control" id="name">
+                    </div>
+                    <div v-if="errors.name">
+                        <p v-for="(error, index) in errors.name" :key="index">{{ error }}</p>
                     </div>
 
                     <div class="mb-3">
                         <label for="message" class="form-label">Messaggio</label>
-                        <textarea id="message" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea v-model="message" id="message" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                    <div v-if="errors.message">
+                        <p v-for="(error, index) in errors.message" :key="index">{{ error }}</p>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Invia</button>
+                    <button type="submit" @click.prevent="sendMessage()" class="btn btn-primary">Invia</button>>
                 </form>
             </div>
         </section>
@@ -30,5 +41,37 @@
 <script>
 export default {
     name: 'Contacts',
+    data: function() {
+        return {
+            email: '',
+            name: '',
+            message: '',
+            errors: {},
+            success: false,
+        };
+    },
+    methods: {
+        sendMessage: function() {
+            axios.post('/api/leads/store', {
+                email: this.email,
+                name: this.name,
+                message: this.message
+            })
+            .then((response) => {
+                if(response.data.success) {
+                    // nessun errore, setta i dati vuoti
+                    this.name = '';
+                    this.email = '';
+                    this.message = '';
+                    this.error = {};
+                    this.success = true;
+                } 
+                else {
+                    this.success = false;
+                    this.errors = response.data.errors
+                }
+            });
+        }
+    }
 }
 </script>
