@@ -31,7 +31,7 @@
                         <p v-for="(error, index) in errors.message" :key="index">{{ error }}</p>
                     </div>
 
-                    <button type="submit" @click.prevent="sendMessage()" class="btn btn-primary">Invia</button>>
+                    <button type="submit" @click.prevent="sendMessage()" class="btn btn-primary">Invia</button>
                 </form>
             </div>
         </section>

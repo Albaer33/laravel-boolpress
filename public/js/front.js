@@ -3328,7 +3328,6 @@ var render = function () {
             },
             [_vm._v("Invia")]
           ),
-          _vm._v(">\n            "),
         ]),
       ]),
     ]),
