@@ -10,6 +10,7 @@
                     {{ tag.name }}
                 </span>
             </div>
+            <img v-if="post.cover" :src="post.cover" class="card-img-top" alt="post.title">
 
             <p>{{ post.content }}</p>
         </div>
