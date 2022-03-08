@@ -58,10 +58,16 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
 
+            {{-- input del file immagine --}}
             <div class="mb-3">
                 <label for="image" class="form-label">Image</label>
                 <input type="file" id="image" name="image">
             </div>
+            
+            {{-- avvisa se ci sono errori nel caricamento dell'immagine --}}
+            @error('image')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
 
             <button type="submit" class="btn btn-primary">Crea Post</button>
 

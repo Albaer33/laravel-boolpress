@@ -118,6 +118,15 @@ class PostController extends Controller
         if($form_data['title'] != $post->title) {
             $form_data['slug'] = Post::getUniqueSlugFromTitle($form_data['title']);
         }
+
+        // cancella la vecchia immagine, ne carica una nuova, e aggiorna la colonna del database
+        if($form_data['image']) {
+            if($post->cover) {
+                Storage::delete($post->cover);
+            }
+            $img_path = Storage::put('post_covers', $form_data['image']);
+            $form_data['cover'] = $img_path;
+        }
         
         $post->update($form_data);
 
@@ -141,7 +150,13 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        // setta i tag con l'id del post come vuoti
         $post->tags()->sync([]);
+        // cancella il path cover del post
+        if($post->cover) {
+            Storage::delete($post->cover);
+        }
+
         $post->delete();
 
         return redirect()->route('admin.posts.index');
@@ -153,7 +168,8 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required|max:60000',
             'category_id' => 'exists:categories,id|nullable',
-            'tags' => 'exists:tags,id'
+            'tags' => 'exists:tags,id',
+            'image' => 'image|max:512'
         ];
     }
 }
