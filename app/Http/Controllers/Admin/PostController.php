@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(8);
+        $posts = Post::paginate(9);
         
         return view('admin.posts.index', compact('posts'));
     }
@@ -169,7 +169,7 @@ class PostController extends Controller
             'content' => 'required|max:60000',
             'category_id' => 'exists:categories,id|nullable',
             'tags' => 'exists:tags,id',
-            'image' => 'image|max:512'
+            'image' => 'mimes:jpg,bmp,png|max:512'
         ];
     }
 }
